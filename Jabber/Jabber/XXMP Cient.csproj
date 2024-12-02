@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="agsXMPP.NetCore" Version="1.6.0" />
+    <PackageReference Include="jabber-net" Version="2.1.2" />
+    <PackageReference Include="MatriX" Version="2.1.0.8" />
+    <PackageReference Include="Matrix.vNext" Version="2.4.5" />
+    <PackageReference Include="XmppDotNet" Version="3.2.4" />
+    <PackageReference Include="XmppDotNet.Core" Version="3.2.4" />
+    <PackageReference Include="XmppDotNet.Extensions" Version="3.2.4" />
+    <PackageReference Include="XmppDotNet.Srv" Version="3.2.4" />
+    <PackageReference Include="XmppDotNet.Transport.Socket" Version="3.2.4" />
+    <PackageReference Include="XmppDotNet.Transport.WebSocket" Version="3.2.4" />
+  </ItemGroup>
+
+</Project>

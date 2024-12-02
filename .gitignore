@@ -1,0 +1,88 @@
+# .NET Core
+.vs2019/
+.vs2021/
+.vs2022/
+.vs2017/
+.vs/
+
+# User-specific files
+.vscode/
+.idea/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows Installer logs
+*.cab
+*.log
+
+# Windows Installer
+*.swp
+*.suo
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]istro/
+[Dd]evelopment/
+[Dd]ebug_netcoreapp3.1/
+[Dd]ebug_x64/
+[Dd]ebug_x86/
+[Dd]Release/
+[Dd]ReleasePublic/
+[Dd]istro/
+bin/
+obj/
+
+# Uncomment if you have tasks that create project's project's obj or bin directories
+# bin/
+# obj/
+
+# Uncomment if you have packages that create project's packages directory
+# packages/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows Installer logs
+*.cab
+*.log
+
+# ASP.NET Scaffolding
+Scaffolding/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]evelopment/
+[Dd]ebug_netcoreapp3.1/
+[Dd]ebug_x64/
+[Dd]ebug_x86/
+[Dd]Release/
+[Dd]ReleasePublic/
+[Dd]istro/
+bin/
+obj/
+
+# Uncomment if you have tasks that create project's project's obj or bin directories
+# bin/
+# obj/
