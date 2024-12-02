@@ -9,25 +9,38 @@ public static class DatabaseHelper
 {
 	private const string ConnectionString = "Data Source=chatapp.db;";
 
-	public static void InitializeDatabase()
+	private static void EnsureDatabaseExists()
 	{
-		ExecuteNonQuery(@"
-            CREATE TABLE IF NOT EXISTS Users (
-                Username TEXT PRIMARY KEY, 
-                PasswordHash TEXT, 
-                PresenceStatus TEXT
-            );
-            CREATE TABLE IF NOT EXISTS Messages (
-                Id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                FromUsername TEXT, 
-                ToUsername TEXT, 
-                Body TEXT, 
-                Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-            );");
+		if (!System.IO.File.Exists("chatapp.db"))
+		{
+			Log.Information("База данных не найдена. Создаётся новая база данных...");
+			using (var connection = new SqliteConnection(ConnectionString))
+			{
+				connection.Open();
+				connection.Close();
+			}
+
+			ExecuteNonQuery(@"
+                CREATE TABLE IF NOT EXISTS Users (
+                    Username TEXT PRIMARY KEY, 
+                    PasswordHash TEXT, 
+                    PresenceStatus TEXT
+                );
+                CREATE TABLE IF NOT EXISTS Messages (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                    FromUsername TEXT, 
+                    ToUsername TEXT, 
+                    Body TEXT, 
+                    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+                );");
+
+			Log.Information("База данных и таблицы успешно созданы.");
+		}
 	}
 
 	public static bool AddUser(string username, string password)
 	{
+		EnsureDatabaseExists();
 		if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) return false;
 
 		var hashedPassword = HashPassword(password);
@@ -39,13 +52,14 @@ public static class DatabaseHelper
 		}
 		catch (Exception ex)
 		{
-			Log.Error(ex, "������ ��� ���������� ������������.");
+			Log.Error(ex, "Ошибка при добавлении пользователя.");
 			return false;
 		}
 	}
 
 	public static bool AuthenticateUser(string username, string password)
 	{
+		EnsureDatabaseExists();
 		var storedHash = ExecuteScalar<string>("SELECT PasswordHash FROM Users WHERE Username = @username", ("@username", username));
 		if (storedHash == null) return false;
 
@@ -54,18 +68,21 @@ public static class DatabaseHelper
 
 	public static void SaveMessage(string from, string to, string body)
 	{
+		EnsureDatabaseExists();
 		ExecuteNonQuery("INSERT INTO Messages (FromUsername, ToUsername, Body) VALUES (@from, @to, @body)",
 			("@from", from), ("@to", to), ("@body", body));
 	}
 
 	public static void UpdatePresence(string username, string status)
 	{
+		EnsureDatabaseExists();
 		ExecuteNonQuery("UPDATE Users SET PresenceStatus = @status WHERE Username = @username",
 			("@username", username), ("@status", status));
 	}
 
 	public static List<(string, string, string, DateTime)> GetChatHistory(string username, string contact)
 	{
+		EnsureDatabaseExists();
 		var query = @"
             SELECT FromUsername, ToUsername, Body, Timestamp
             FROM Messages
@@ -88,6 +105,7 @@ public static class DatabaseHelper
 
 	public static List<string> GetUserContacts(string username)
 	{
+		EnsureDatabaseExists();
 		var query = @"
             SELECT DISTINCT CASE WHEN FromUsername = @username THEN ToUsername ELSE FromUsername END 
             FROM Messages
@@ -107,6 +125,7 @@ public static class DatabaseHelper
 
 	public static bool UserExists(string username)
 	{
+		EnsureDatabaseExists();
 		return ExecuteScalar<int>("SELECT COUNT(*) FROM Users WHERE Username = @username", ("@username", username)) > 0;
 	}
 
