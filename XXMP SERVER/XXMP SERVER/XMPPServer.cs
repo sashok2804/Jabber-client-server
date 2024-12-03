@@ -83,7 +83,11 @@ public class XMPPServer
 					break;
 				}
 
-				Log.Information($"Получен запрос от клиента {client.Client.RemoteEndPoint}: {request}");
+				
+				if (!request.Contains("<loadChatHistory"))
+				{
+					Log.Information($"Получен запрос от клиента {client.Client.RemoteEndPoint}: {request}"); 
+				}
 				var response = XMPPHandlers.ProcessXml(request, client, writer);
 				if (response != null)
 				{
